@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
     private TaskManager taskManager;
+    private final TimelineView timelineView;
 
     public MainFrame() {
         super("Personal Task Manager");
@@ -16,13 +17,22 @@ public class MainFrame extends JFrame {
         XMLStorage.loadTasks(taskManager);
 
         setLayout(new BorderLayout());
-        add(new TimelineView(taskManager), BorderLayout.CENTER);
-        add(new ControlPanel(taskManager), BorderLayout.NORTH);
 
-        // TODO: etc
+        // UPPER PANEL
+        ControlPanel controlPanel = new ControlPanel(taskManager, this);
+        add(controlPanel, BorderLayout.NORTH);
 
-        setSize(900, 600);
+        timelineView = new TimelineView(taskManager);
+        add(new JScrollPane(timelineView), BorderLayout.CENTER);
+
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1000, 600);
+        setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public void refreshView() {
+        timelineView.repaint();
     }
 }
