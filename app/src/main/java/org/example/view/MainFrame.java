@@ -1,11 +1,12 @@
 package org.example.view;
 
 import org.example.model.TaskManager;
+import org.example.model.Task;
 import org.example.io.XMLStorage; 
 
 import javax.swing.*; 
 import java.awt.*; 
-
+import java.time.LocalDateTime;
 
 public class MainFrame extends JFrame {
     private TaskManager taskManager;
@@ -25,14 +26,17 @@ public class MainFrame extends JFrame {
         timelineView = new TimelineView(taskManager);
         add(new JScrollPane(timelineView), BorderLayout.CENTER);
 
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1000, 600);
+        setSize(1900, 1000);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     public void refreshView() {
         timelineView.repaint();
+    }
+
+    public TimelineView getTimelineView() {
+        return timelineView;
     }
 }

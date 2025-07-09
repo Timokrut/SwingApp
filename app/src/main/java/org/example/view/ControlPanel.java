@@ -29,6 +29,24 @@ public class ControlPanel extends JPanel {
             frame.refreshView();
         });
 
-        // TODO: Adjust another buttons
+        btnZoom3Days.addActionListener(e -> {
+            frame.getTimelineView().setDaySpan(3);
+        });
+
+        btnZoomWeek.addActionListener(e -> {
+            frame.getTimelineView().setDaySpan(7);
+        });
+
+        btnToday.addActionListener(e -> {
+            frame.getTimelineView().resetToToday();
+        });
+
+        btnBack.addActionListener(e -> {
+            frame.getTimelineView().shiftDays(-frame.getTimelineView().getDaySpan());
+        });
+
+        btnForward.addActionListener(e -> {
+            frame.getTimelineView().shiftDays(frame.getTimelineView().getDaySpan());
+        });
     }
 }
