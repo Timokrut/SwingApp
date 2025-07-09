@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 
 public class TaskDialog extends JDialog {
     private final JTextField titleField = new JTextField(20);
-    private final JTextField startField = new JTextField("2025-07-08T09:00", 16);
-    private final JTextField endField = new JTextField("2025-07-08T10:30", 16);
-    private final JTextField colorField = new JTextField("red", 10);
+    private final JTextField startField = new JTextField(LocalDateTime.now().toString(), 16);
+    private final JTextField endField = new JTextField(LocalDateTime.now().toString(), 16);
+    private final JTextField colorField = new JTextField("#00FFFF", 10);
     private final JTextArea descriptionArea = new JTextArea(5, 20);
 
     public TaskDialog(JFrame parent, TaskManager manager, Task existingTask) {
@@ -21,8 +21,8 @@ public class TaskDialog extends JDialog {
         JPanel form = new JPanel(new GridLayout(5, 2, 5, 5));
         form.add(new JLabel("Name:")); form.add((titleField));
         form.add(new JLabel("Start at (YYYY-MM-DDTHH:MM):")); form.add(startField);
-        form.add(new JLabel("End at (YYYY-MM-DDTHH):")); form.add(endField);
-        form.add(new JLabel("Color:")); form.add(colorField);
+        form.add(new JLabel("End at (YYYY-MM-DDTHH:MM):")); form.add(endField);
+        form.add(new JLabel("Color in hex (e.g. #FFFFFF):")); form.add(colorField);
         form.add(new JLabel("Description:")); form.add(new JScrollPane(descriptionArea));
         add(form, BorderLayout.CENTER);
 

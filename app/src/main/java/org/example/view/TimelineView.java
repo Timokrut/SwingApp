@@ -89,13 +89,13 @@ public class TimelineView extends JPanel {
             LocalDateTime currentDay = startDateTime.plusDays(i);
 
             if (!taskStart.toLocalDate().isAfter(currentDay.toLocalDate()) && !taskEnd.toLocalDate().isBefore(currentDay.toLocalDate())) {
-                LocalDateTime drawStart = taskStart.isBefore(currentDay.with(LocalTime.MIN)) ? currentDay.with(LocalTime.MIN) : taskEnd;
+                LocalDateTime drawStart = taskStart.isBefore(currentDay.with(LocalTime.MIN)) ? currentDay.with(LocalTime.MIN) : taskStart;
                 LocalDateTime drawEnd = taskEnd.isAfter(currentDay.with(LocalTime.MAX)) ? currentDay.with(LocalTime.MAX) : taskEnd;
 
                 long minutesFromStart = ChronoUnit.MINUTES.between(LocalTime.MIN, drawStart.toLocalTime());
                 long durationMinutes = ChronoUnit.MINUTES.between(drawStart, drawEnd);
 
-                int x = i * columnWidth + 60; 
+                int x = i * columnWidth + 40; 
                 int y = headerHeight + (int) (minutesFromStart * hourHeight / 60);
                 int height = (int) (durationMinutes * hourHeight / 60);
                 int width = columnWidth - 70;
@@ -107,9 +107,13 @@ public class TimelineView extends JPanel {
                 }
 
                 g2.fillRoundRect(x, y, width, height, 10, 10);
-                g2.setColor(Color.BLACK);
+
+                // рамка
+                g2.setColor(Color.DARK_GRAY);
                 g2.drawRoundRect(x, y, width, height, 10, 10);
 
+                // text
+                g2.setColor(Color.BLACK);
                 g2.setClip(x, y, width, height);
                 g2.drawString(task.getTitle(), x + 5, y + 15);
                 g2.setClip(null);
