@@ -5,7 +5,7 @@ import org.example.model.TaskManager;
 
 import javax.swing.*; 
 import java.awt.*; 
-import java.time.LocalDate; 
+import java.time.LocalDateTime; 
 
 public class TaskDialog extends JDialog {
     private final JTextField titleField = new JTextField(20);
@@ -39,8 +39,8 @@ public class TaskDialog extends JDialog {
         saveButton.addActionListener(e -> {
             Task task = new Task(
                 titleField.getText(),
-                LocalDate.parse(startField.getText()),
-                LocalDate.parse(endField.getText()),
+                LocalDateTime.parse(startField.getText()),
+                LocalDateTime.parse(endField.getText()),
                 colorField.getText(),
                 descriptionArea.getText()
             );

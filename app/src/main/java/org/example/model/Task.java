@@ -1,15 +1,15 @@
 package org.example.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Task {
     private String title;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private String color;
     private String description;
 
-    public Task(String title, LocalDate startDate, LocalDate endDate, String color, String description) {
+    public Task(String title, LocalDateTime startDate, LocalDateTime endDate, String color, String description) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -21,11 +21,11 @@ public class Task {
         return title;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 

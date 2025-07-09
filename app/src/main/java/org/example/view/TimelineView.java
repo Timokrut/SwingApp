@@ -5,7 +5,7 @@ import org.example.model.TaskManager;
 
 import javax.swing.*; 
 import java.awt.*; 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TimelineView extends JPanel {
     private TaskManager taskManager;
