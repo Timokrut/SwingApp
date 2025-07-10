@@ -17,6 +17,4 @@ public class TaskManager {
     public List<Task> getTasks() {
         return this.tasks;
     }
-
-    // TODO: another logic
 }
