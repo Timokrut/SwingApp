@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tasks>
+    <task>
+        <title>Test 2</title>
+        <start>2025-07-11T10:00</start>
+        <end>2025-07-11T15:00</end>
+        <color>#ff5733</color>
+        <desc>One day or day One</desc>
+    </task>
+    <task>
+        <title>Test 1</title>
+        <start>2025-07-11T01:00</start>
+        <end>2025-07-11T10:00</end>
+        <color>#3aa555</color>
+        <desc>This is one of the first saved XML comments </desc>
+    </task>
+</tasks>

@@ -2,6 +2,7 @@ package org.example.view;
 
 import org.example.model.Task;
 import org.example.model.TaskManager; 
+import org.example.io.XMLStorage; 
 
 import javax.swing.*; 
 import java.awt.*; 
@@ -51,6 +52,8 @@ public class TaskDialog extends JDialog {
                 manager.addTask(task);
             }
 
+            XMLStorage.saveTasks(manager.getTasks());
+
             dispose();
         });
 
@@ -63,6 +66,7 @@ public class TaskDialog extends JDialog {
                 int confirm = JOptionPane.showConfirmDialog(this, "Permanently delete this task?", "Confirm", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     manager.removeTask(existingTask);
+                    XMLStorage.saveTasks(manager.getTasks()); 
                     dispose();
                 }
             });

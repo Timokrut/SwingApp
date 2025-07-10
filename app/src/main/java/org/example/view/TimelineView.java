@@ -21,6 +21,10 @@ public class TimelineView extends JPanel {
 
     public TimelineView(TaskManager taskManager) {
         this.taskManager = taskManager;
+        
+        // TODO: Make better UI 
+        ToolTipManager.sharedInstance().registerComponent(this);
+
         setPreferredSize(new Dimension(1200, 800));
         setBackground(Color.WHITE);
 
@@ -38,6 +42,26 @@ public class TimelineView extends JPanel {
                         repaint();
                         break;
                     }
+                }
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override 
+            public void mouseMoved(MouseEvent e) {
+                Point p = e.getPoint();
+                boolean found = false;
+
+                for (Map.Entry<Rectangle, Task> entry : taskBounds.entrySet()) {
+                    if (entry.getKey().contains(p)) {
+                        Task t = entry.getValue();
+                        setToolTipText(t.getDescription() != null && !t.getDescription().isBlank() ? t.getDescription() : "No description");
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    setToolTipText(null);
                 }
             }
         });
