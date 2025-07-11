@@ -12,8 +12,8 @@ import java.awt.event.ActionEvent;
 
 public class TaskDialog extends JDialog {
     private final JTextField titleField = new JTextField(20);
-    private final JTextField startField = new JTextField(LocalDateTime.now().with(LocalTime.MIN).toString(), 16);
-    private final JTextField endField = new JTextField(LocalDateTime.now().with(LocalTime.MIN).toString(), 16);
+    private final JTextField startField = new JTextField(LocalDateTime.now().withNano(0).withSecond(0).toString(), 16);
+    private final JTextField endField = new JTextField(LocalDateTime.now().withNano(0).withSecond(0).toString(), 16);
     private final JTextField colorField = new JTextField("#00FFFF", 10);
     private final JTextArea descriptionArea = new JTextArea(5, 20);
 

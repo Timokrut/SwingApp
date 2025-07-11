@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.time.format.DateTimeFormatter;
 
 public class TimelineView extends JPanel {
     private TaskManager taskManager;
@@ -65,11 +66,13 @@ public class TimelineView extends JPanel {
                 }
             }
         });
+
+        resetToToday();
     }
 
     public void setDaySpan(int days) {
         this.daySpan = days;
-        repaint();
+        resetToToday();
     }
 
     public void shiftDays(int offset) {
@@ -78,7 +81,18 @@ public class TimelineView extends JPanel {
     }
 
     public void resetToToday() {
-        startDateTime = LocalDateTime.now().with(LocalTime.MIN);
+        LocalDateTime today = LocalDateTime.now().with(LocalTime.MIN);
+
+        if (daySpan == 3) {
+            // Center current day
+            startDateTime = today.minusDays(1);
+        } else if (daySpan == 7) {
+            // Start from monday
+            startDateTime = today.with(java.time.DayOfWeek.MONDAY);
+        } else {
+            startDateTime = today;
+        }
+
         repaint();
     }
 
@@ -101,12 +115,26 @@ public class TimelineView extends JPanel {
         int hourHeight = 50;
         int headerHeight = 30;
         int totalHours = 24;
-        int timeLabelWidth = 60;
+        int timeLabelWidth = 50;
         int columnWidth = (width - timeLabelWidth) / daySpan;
+
+        LocalDateTime today = LocalDateTime.now();
 
         // Vertical lines
         for (int i = 0; i < daySpan; i++) {
             int x = timeLabelWidth + i * columnWidth;
+            LocalDateTime thisDay = startDateTime.plusDays(i);
+
+            if (thisDay.toLocalDate().isBefore(today.toLocalDate())) {
+                // -> PAST DAY
+                g2.setColor(new Color(230, 230, 230));
+                g2.fillRect(x, 0, columnWidth, height);
+            } else if (thisDay.toLocalDate().equals(today.toLocalDate())) {
+                // -> TODAY
+                g2.setColor(new Color(150, 200, 255, 80));
+                g2.fillRect(x, 0, columnWidth, height);
+            }
+
             g2.setColor(Color.LIGHT_GRAY);
             g2.drawLine(x, 0, x, height);
             g2.setColor(Color.BLACK);
@@ -146,7 +174,7 @@ public class TimelineView extends JPanel {
                 int x = timeLabelWidth + i * columnWidth + 10; 
                 int y = headerHeight + (int) (minutesFromStart * hourHeight / 60);
                 int height = (int) (durationMinutes * hourHeight / 60);
-                int width = columnWidth - 30;
+                int width = columnWidth - 20;
                
                 // HitBox for MouseEvent
                 Rectangle rect = new Rectangle(x, y, width, height);
@@ -160,7 +188,7 @@ public class TimelineView extends JPanel {
 
                 g2.fillRoundRect(x, y, width, height, 10, 10);
 
-                // рамка
+                // Bounds 
                 g2.setColor(Color.DARK_GRAY);
                 g2.drawRoundRect(x, y, width, height, 10, 10);
 
@@ -168,6 +196,12 @@ public class TimelineView extends JPanel {
                 g2.setColor(Color.BLACK);
                 g2.setClip(x, y, width, height);
                 g2.drawString(task.getTitle(), x + 5, y + 15);
+
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+                String startDateFormatted = task.getStartDate().format(dtf); 
+                String endDateFormatted = task.getEndDate().format(dtf); 
+
+                g2.drawString(startDateFormatted + " - " + endDateFormatted, x + 5, y + 30);
                 g2.setClip(null);
             }
         }

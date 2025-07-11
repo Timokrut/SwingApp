@@ -14,4 +14,18 @@
         <color>#3aa555</color>
         <desc>This is one of the first saved XML comments </desc>
     </task>
+    <task>
+        <title>TASK 4</title>
+        <start>2025-07-11T14:44</start>
+        <end>2025-07-11T16:44</end>
+        <color>#00FFFF</color>
+        <desc>new one</desc>
+    </task>
+    <task>
+        <title>task 5</title>
+        <start>2025-07-12T11:45</start>
+        <end>2025-07-12T13:45</end>
+        <color/>
+        <desc>nope</desc>
+    </task>
 </tasks>

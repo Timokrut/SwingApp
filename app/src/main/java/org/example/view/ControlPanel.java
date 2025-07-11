@@ -31,10 +31,12 @@ public class ControlPanel extends JPanel {
 
         btnZoom3Days.addActionListener(e -> {
             frame.getTimelineView().setDaySpan(3);
+            frame.getTimelineView().resetToToday();
         });
 
         btnZoomWeek.addActionListener(e -> {
             frame.getTimelineView().setDaySpan(7);
+            frame.getTimelineView().resetToToday();
         });
 
         btnToday.addActionListener(e -> {
