@@ -15,6 +15,13 @@
         <desc>new one</desc>
     </task>
     <task>
+        <title>task 5</title>
+        <start>2025-07-12T11:45</start>
+        <end>2025-07-12T13:45</end>
+        <color/>
+        <desc>nope</desc>
+    </task>
+    <task>
         <title>Test 1</title>
         <start>2025-07-11T01:00</start>
         <end>2025-07-11T10:00</end>
@@ -27,19 +34,5 @@
         <end>2025-07-07T20:00</end>
         <color>#3aa555</color>
         <desc>This is one of the first saved XML comments </desc>
-    </task>
-    <task>
-        <title>ads1</title>
-        <start>2025-07-12T22:02</start>
-        <end>2025-07-12T22:15</end>
-        <color>#00FFFF</color>
-        <desc/>
-    </task>
-    <task>
-        <title>task 551</title>
-        <start>2025-07-12T11:45</start>
-        <end>2025-07-12T13:45</end>
-        <color/>
-        <desc>nope</desc>
     </task>
 </tasks>

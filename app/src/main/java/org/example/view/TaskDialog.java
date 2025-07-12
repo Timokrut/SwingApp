@@ -7,7 +7,6 @@ import org.example.io.XMLStorage;
 import javax.swing.*; 
 import java.awt.*; 
 import java.time.LocalDateTime; 
-import java.time.LocalTime; 
 import java.awt.event.ActionEvent;
 
 public class TaskDialog extends JDialog {
@@ -52,7 +51,7 @@ public class TaskDialog extends JDialog {
                 manager.addTask(task);
             }
 
-            XMLStorage.saveTasks(manager.getTasks());
+            XMLStorage.saveTasks(manager.getTasks(), manager.getFilename());
 
             dispose();
         });
@@ -66,7 +65,7 @@ public class TaskDialog extends JDialog {
                 int confirm = JOptionPane.showConfirmDialog(this, "Permanently delete this task?", "Confirm", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     manager.removeTask(existingTask);
-                    XMLStorage.saveTasks(manager.getTasks()); 
+                    XMLStorage.saveTasks(manager.getTasks(), manager.getFilename()); 
                     dispose();
                 }
             });

@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class XMLStorage {
-    private static final String FILE_NAME = "tasks.xml";
-
-    public static void saveTasks(List<Task> tasks) {
+    public static void saveTasks(List<Task> tasks, String fileName) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -40,7 +38,7 @@ public class XMLStorage {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(FILE_NAME));
+            StreamResult result = new StreamResult(new File(fileName));
             transformer.transform(source, result);
     
         } catch (Exception e) {
@@ -48,9 +46,8 @@ public class XMLStorage {
         }
     }
 
-    public static void loadTasks(TaskManager manager) {
+    public static void loadTasks(TaskManager manager, File file) {
         try {
-            File file = new File(FILE_NAME);
             if (!file.exists()) return;
     
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

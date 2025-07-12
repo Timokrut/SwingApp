@@ -2,9 +2,11 @@ package org.example.view;
 
 import org.example.model.TaskManager;
 import org.example.io.XMLStorage; 
+import org.example.io.AppConfig; 
 
 import javax.swing.*; 
 import java.awt.*; 
+import java.io.File;
 
 public class MainFrame extends JFrame {
     private TaskManager taskManager;
@@ -13,9 +15,17 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         super("Personal Task Manager");
         taskManager = new TaskManager();
-        
+
+        String fileName = AppConfig.loadLastFilePath();
+        if (fileName == null) {
+            fileName = "tasks.xml";
+        }
+
         // Load tasks from file
-        XMLStorage.loadTasks(taskManager);
+        File file = new File(fileName);
+        XMLStorage.loadTasks(taskManager, file);
+        AppConfig.saveLastFilePath(fileName);
+        taskManager.changeFile(fileName);
 
         setLayout(new BorderLayout());
 
