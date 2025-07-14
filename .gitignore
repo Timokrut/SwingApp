@@ -4,6 +4,6 @@
 # Ignore Gradle build output directory
 build
 
-.class
-.txt
-.xml
+*.class
+*.txt
+*.xml
