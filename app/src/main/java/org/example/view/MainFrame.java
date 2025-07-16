@@ -22,11 +22,15 @@ public class MainFrame extends JFrame {
         }
 
         // Load tasks from file
-        File file = new File(fileName);
-        XMLStorage.loadTasks(taskManager, file);
-        AppConfig.saveLastFilePath(fileName);
-        taskManager.changeFile(fileName);
-
+        try {
+            File file = new File(fileName);
+            XMLStorage.loadTasks(taskManager, file);
+            AppConfig.saveLastFilePath(fileName);
+            taskManager.changeFile(fileName);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed loading from file: \n" + ex.getMessage(), "Fault", JOptionPane.ERROR_MESSAGE);
+        }
         setLayout(new BorderLayout());
 
         // UPPER PANEL

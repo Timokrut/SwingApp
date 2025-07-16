@@ -51,7 +51,12 @@ public class TaskDialog extends JDialog {
                 manager.addTask(task);
             }
 
-            XMLStorage.saveTasks(manager.getTasks(), manager.getFilename());
+            try {
+                XMLStorage.saveTasks(manager.getTasks(), manager.getFilename());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Failed saving to file: \n" + ex.getMessage(), "Fault", JOptionPane.ERROR_MESSAGE);
+            }
 
             dispose();
         });
@@ -64,9 +69,14 @@ public class TaskDialog extends JDialog {
             deleteButton.addActionListener((ActionEvent e) -> {
                 int confirm = JOptionPane.showConfirmDialog(this, "Permanently delete this task?", "Confirm", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
-                    manager.removeTask(existingTask);
-                    XMLStorage.saveTasks(manager.getTasks(), manager.getFilename()); 
-                    dispose();
+                    try {
+                        manager.removeTask(existingTask);
+                        XMLStorage.saveTasks(manager.getTasks(), manager.getFilename()); 
+                        dispose();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Failed saving to file: \n" + ex.getMessage(), "Fault", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             });
         }

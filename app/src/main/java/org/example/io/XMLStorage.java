@@ -13,70 +13,61 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class XMLStorage {
-    public static void saveTasks(List<Task> tasks, String fileName) {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.newDocument();
+    public static void saveTasks(List<Task> tasks, String fileName) throws Exception {
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.newDocument();
 
-            Element root = doc.createElement("tasks");
-            doc.appendChild(root);
+        Element root = doc.createElement("tasks");
+        doc.appendChild(root);
 
-            for (Task t : tasks) {
-                Element taskElem = doc.createElement("task");
+        for (Task t : tasks) {
+            Element taskElem = doc.createElement("task");
 
-                appendText(doc, taskElem, "title", t.getTitle());
-                appendText(doc, taskElem, "start", t.getStartDate().toString());
-                appendText(doc, taskElem, "end", t.getEndDate().toString());
-                appendText(doc, taskElem, "color", t.getColor());
-                appendText(doc, taskElem, "desc", t.getDescription());
+            appendText(doc, taskElem, "title", t.getTitle());
+            appendText(doc, taskElem, "start", t.getStartDate().toString());
+            appendText(doc, taskElem, "end", t.getEndDate().toString());
+            appendText(doc, taskElem, "color", t.getColor());
+            appendText(doc, taskElem, "desc", t.getDescription());
 
-                root.appendChild(taskElem);
-            }
-
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileName));
-            transformer.transform(source, result);
-    
-        } catch (Exception e) {
-            e.printStackTrace();
+            root.appendChild(taskElem);
         }
+
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(new File(fileName));
+        transformer.transform(source, result);
     }
 
-    public static void loadTasks(TaskManager manager, File file) {
-        try {
-            if (!file.exists()) return;
-    
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(file);
-            doc.getDocumentElement().normalize();
+    public static void loadTasks(TaskManager manager, File file) throws Exception {
+        if (!file.exists()) return;
 
-            NodeList taskNodes = doc.getElementsByTagName("task");
-            for (int i = 0; i < taskNodes.getLength(); i++) {
-                Element taskElem = (Element) taskNodes.item(i);
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(file);
+        doc.getDocumentElement().normalize();
 
-                String title = getTagValue("title", taskElem);
-                String start = getTagValue("start", taskElem);
-                String end = getTagValue("end", taskElem);
-                String color = getTagValue("color", taskElem);
-                String desc = getTagValue("desc", taskElem);
+        NodeList taskNodes = doc.getElementsByTagName("task");
+        for (int i = 0; i < taskNodes.getLength(); i++) {
+            Element taskElem = (Element) taskNodes.item(i);
 
-                Task task = new Task(
-                    title, 
-                    LocalDateTime.parse(start), 
-                    LocalDateTime.parse(end),
-                    color, 
-                    desc != null ? desc : ""
-                );
+            String title = getTagValue("title", taskElem);
+            String start = getTagValue("start", taskElem);
+            String end = getTagValue("end", taskElem);
+            String color = getTagValue("color", taskElem);
+            String desc = getTagValue("desc", taskElem);
 
-                manager.addTask(task);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            Task task = new Task(
+                title, 
+                LocalDateTime.parse(start), 
+                LocalDateTime.parse(end),
+                color, 
+                desc != null ? desc : ""
+            );
+
+            manager.addTask(task);
         }
     }
    

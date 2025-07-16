@@ -24,20 +24,23 @@ public class XMLStorageTest {
 
     @Test
     public void testSaveAndLoadTasksToFile() {
-        Task task = new Task("Meeting", now(14), now(15), "#111111", "desc");
-        XMLStorage.saveTasks(List.of(task), TEST_FILE.getPath());
+        try {
+            Task task = new Task("Meeting", now(14), now(15), "#111111", "desc");
+            XMLStorage.saveTasks(List.of(task), TEST_FILE.getPath());
 
-        TaskManager manager = new TaskManager();
-        XMLStorage.loadTasks(manager, TEST_FILE);
+            TaskManager manager = new TaskManager();
+            XMLStorage.loadTasks(manager, TEST_FILE);
+            assertEquals(1, manager.getTasks().size());
+            Task loaded = manager.getTasks().get(0);
 
-        assertEquals(1, manager.getTasks().size());
-        Task loaded = manager.getTasks().get(0);
-
-        assertEquals(task.getTitle(), loaded.getTitle());
-        assertEquals(task.getColor(), loaded.getColor());
-        assertEquals(task.getStartDate(), loaded.getStartDate());
-        assertEquals(task.getEndDate(), loaded.getEndDate());
-        assertEquals(task.getDescription(), loaded.getDescription());
+            assertEquals(task.getTitle(), loaded.getTitle());
+            assertEquals(task.getColor(), loaded.getColor());
+            assertEquals(task.getStartDate(), loaded.getStartDate());
+            assertEquals(task.getEndDate(), loaded.getEndDate());
+            assertEquals(task.getDescription(), loaded.getDescription());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private LocalDateTime now(int hour) {

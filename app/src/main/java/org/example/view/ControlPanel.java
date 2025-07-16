@@ -18,8 +18,8 @@ public class ControlPanel extends JPanel {
         JButton btnZoom3Days = new JButton("3 days");
         JButton btnZoomWeek = new JButton("Week");
         JButton btnAdd = new JButton("+");
-        JButton btnSaveto = new JButton("Save to");
-        JButton btnLoad = new JButton("Load from");
+        JButton btnSaveTo = new JButton("Save to");
+        JButton btnLoadFrom = new JButton("Load from");
 
         add(btnToday);
         add(btnBack);
@@ -27,8 +27,8 @@ public class ControlPanel extends JPanel {
         add(btnZoom3Days);
         add(btnZoomWeek);
         add(btnAdd);
-        add(btnSaveto);
-        add(btnLoad);
+        add(btnSaveTo);
+        add(btnLoadFrom);
 
         btnAdd.addActionListener(e -> {
             TaskDialog dialog = new TaskDialog(frame, manager, null);
@@ -58,31 +58,41 @@ public class ControlPanel extends JPanel {
             frame.getTimelineView().shiftDays(frame.getTimelineView().getDaySpan());
         });
 
-        btnSaveto.addActionListener(e -> {
+        btnSaveTo.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             int result = chooser.showOpenDialog(ControlPanel.this);
 
             if (result == JFileChooser.APPROVE_OPTION) {
-                File file = chooser.getSelectedFile();
-                manager.changeFile(file.getPath());
-                XMLStorage.saveTasks(manager.getTasks(), manager.getFilename());
-                AppConfig.saveLastFilePath(file.getPath());
+                try {
+                    File file = chooser.getSelectedFile();
+                    manager.changeFile(file.getPath());
+                    XMLStorage.saveTasks(manager.getTasks(), manager.getFilename());
+                    AppConfig.saveLastFilePath(file.getPath());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(frame, "Failed saving to file: \n" + ex.getMessage(), "Fault", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
-        btnLoad.addActionListener(e -> {
+        btnLoadFrom.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();
             int result = chooser.showOpenDialog(ControlPanel.this);
             
             if (result == JFileChooser.APPROVE_OPTION) {
-                File file = chooser.getSelectedFile();
-                manager.changeFile(file.getPath());
+                try {
+                    File file = chooser.getSelectedFile();
+                    manager.changeFile(file.getPath());
 
-                manager.clearTasks();
-                XMLStorage.loadTasks(manager, file);
-                AppConfig.saveLastFilePath(file.getPath());
+                    manager.clearTasks();
+                    XMLStorage.loadTasks(manager, file);
+                    AppConfig.saveLastFilePath(file.getPath());
 
-                frame.refreshView();
+                    frame.refreshView();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(frame, "Failed loading from file: \n" + ex.getMessage(), "Fault", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
